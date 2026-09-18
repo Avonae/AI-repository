@@ -5,22 +5,33 @@ agents, plugins and hooks.
 
 ## Contents
 
-| Path            | What it is                                                     |
-| --------------- | -------------------------------------------------------------- |
-| `agents/`       | Subagent definitions, one Markdown file per agent.              |
-| `settings.json` | Model, enabled plugins, plugin marketplaces and the `rtk` hook.  |
+| Path               | What it is                                                    |
+| ------------------ | ------------------------------------------------------------- |
+| `agents/`          | Subagent definitions, one Markdown file per agent.             |
+| `settings.json`    | Model, enabled plugins, plugin marketplaces and the `rtk` hook. |
+| `.claude-plugin/`  | Marketplace and plugin manifests. The repository root is the plugin. |
+
+This repository is its own plugin marketplace, named `ai`, holding one plugin,
+`avonae-agents`. Installing that plugin is what delivers `agents/`, so the
+files MUST NOT be copied into `~/.claude/agents/` as well — a copy becomes a
+second source that never sees later commits.
 
 ## Install on a new machine
 
-1. Copy `agents/` to `~/.claude/agents/` and `settings.json` to
-   `~/.claude/settings.json`. If a `settings.json` is already there, merge it
-   by hand: the file holds machine-independent keys only, but a local file may
-   carry extra ones.
+1. Copy `settings.json` to `~/.claude/settings.json`. If a `settings.json` is
+   already there, merge it by hand: this file holds machine-independent keys
+   only, but a local file may carry extra ones.
 2. Install the `rtk` binary, then run `rtk init -g`. `settings.json` registers
    the `rtk hook claude` hook, it does not install the binary. Without the
    binary every `Bash` call fails on the missing hook command.
-3. Restart Claude Code. It installs `caveman` and `ansible-skills` on its own
-   from the `enabledPlugins` and `extraKnownMarketplaces` declarations.
+3. Restart Claude Code. It installs `caveman`, `ansible-skills` and
+   `avonae-agents` on its own from the `enabledPlugins` and
+   `extraKnownMarketplaces` declarations.
+
+## Update the agents
+
+Edit `agents/` here and push. On each machine run `/plugin` and update
+`avonae-agents`, or `/plugin marketplace update ai`.
 
 ## Not stored here
 

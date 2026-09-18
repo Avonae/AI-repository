@@ -2,7 +2,8 @@
   "model": "opus",
   "enabledPlugins": {
     "caveman@caveman": true,
-    "ansible-skills@ansible-skills-marketplace": true
+    "ansible-skills@ansible-skills-marketplace": true,
+    "avonae-agents@ai": true
   },
   "extraKnownMarketplaces": {
     "caveman": {
@@ -15,6 +16,12 @@
       "source": {
         "source": "git",
         "url": "https://github.com/realsigridjin/hello-ansible-skills.git"
+      }
+    },
+    "ai": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/Avonae/ai.git"
       }
     }
   },
