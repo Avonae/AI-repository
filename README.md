@@ -1,4 +1,4 @@
-# ai
+All credits to [Haseeb Majid]([url](https://gitlab.com/hmajid2301/nixicle/-/tree/f1378817/modules/aspects/ai/agents))
 
 Portable Claude Code configuration, kept here so every machine runs the same
 agents, plugins and hooks.
