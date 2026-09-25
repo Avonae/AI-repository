@@ -3,6 +3,7 @@
   "enabledPlugins": {
     "caveman@caveman": true,
     "ansible-skills@ansible-skills-marketplace": true,
+    "obsidian@obsidian-skills": true,
     "avonae-agents@ai": true
   },
   "extraKnownMarketplaces": {
@@ -16,6 +17,12 @@
       "source": {
         "source": "git",
         "url": "https://github.com/realsigridjin/hello-ansible-skills.git"
+      }
+    },
+    "obsidian-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/kepano/obsidian-skills.git"
       }
     },
     "ai": {

@@ -24,7 +24,7 @@ second source that never sees later commits.
 2. Install the `rtk` binary, then run `rtk init -g`. `settings.json` registers
    the `rtk hook claude` hook, it does not install the binary. Without the
    binary every `Bash` call fails on the missing hook command.
-3. Restart Claude Code. It installs `caveman`, `ansible-skills` and
+3. Restart Claude Code. It installs `caveman`, `ansible-skills`, `obsidian` and
    `avonae-agents` on its own from the `enabledPlugins` and
    `extraKnownMarketplaces` declarations.
 
