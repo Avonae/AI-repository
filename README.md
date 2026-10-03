@@ -8,7 +8,7 @@ agents, plugins and hooks.
 | Path               | What it is                                                    |
 | ------------------ | ------------------------------------------------------------- |
 | `agents/`          | Subagent definitions, one Markdown file per agent.             |
-| `settings.json`    | Model, session retention, telemetry opt-outs, enabled plugins, plugin marketplaces and the `rtk` hook. |
+| `settings.json`    | Model, session retention, telemetry opt-outs, commit attribution, enabled plugins, plugin marketplaces and the `rtk` hook. |
 | `.claude-plugin/`  | Marketplace and plugin manifests. The repository root is the plugin. |
 
 This repository is its own plugin marketplace, named `ai`, holding one plugin,
