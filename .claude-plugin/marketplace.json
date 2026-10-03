@@ -8,7 +8,7 @@
     {
       "name": "avonae-agents",
       "description": "Personal Claude Code subagents and hooks",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "source": "./",
       "author": {
         "name": "Avonae"

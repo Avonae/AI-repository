@@ -8,7 +8,7 @@ agents, plugins and hooks.
 | Path               | What it is                                                    |
 | ------------------ | ------------------------------------------------------------- |
 | `agents/`          | Subagent definitions, one Markdown file per agent.             |
-| `hooks/`           | Desktop notification (`notify-send`) titled with the session name when Claude finishes or needs input. Silent while subagents still run. |
+| `hooks/`           | Desktop notification (`notify-send`) titled with the session name when Claude finishes or needs input. Silent while subagents still run. Also blocks a whole-file `Read` of a text file over 350 lines (`BULK_READ_MIN_LINES`) and points Claude at the `bulk-reader` agent, which reads it on Haiku and returns a summary. Ranged reads always pass. |
 | `settings.json`    | Model, session retention, telemetry opt-outs, commit attribution, enabled plugins, plugin marketplaces and the `rtk` hook. |
 | `.claude-plugin/`  | Marketplace and plugin manifests. The repository root is the plugin. |
 
