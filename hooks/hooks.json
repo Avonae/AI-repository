@@ -1,0 +1,20 @@
+{
+  "description": "Desktop notification when Claude finishes or needs input, silent while subagents still run",
+  "hooks": {
+    "SubagentStart": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh\" agent-start 2>/dev/null || true" }] }
+    ],
+    "SubagentStop": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh\" agent-stop 2>/dev/null || true" }] }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh\" task-note 2>/dev/null || true" }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh\" stop 2>/dev/null || true", "async": true }] }
+    ],
+    "Notification": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh\" notification 2>/dev/null || true", "async": true }] }
+    ]
+  }
+}
