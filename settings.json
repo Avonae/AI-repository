@@ -1,5 +1,11 @@
 {
   "model": "opus",
+  "cleanupPeriodDays": 99999,
+  "env": {
+    "DISABLE_FEEDBACK_COMMAND": "1",
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "DISABLE_ERROR_REPORTING": "1"
+  },
   "enabledPlugins": {
     "caveman@caveman": true,
     "ansible-skills@ansible-skills-marketplace": true,
