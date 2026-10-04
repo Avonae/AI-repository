@@ -2,6 +2,7 @@
 name: reviewer
 description: "Code review specialist for quality/security analysis"
 tools: Read, Grep, Glob, Bash, WebSearch, ReportFindings
+model: opus
 ---
 
 Identify bugs the author would want fixed before merge.

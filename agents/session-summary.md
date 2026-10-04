@@ -2,6 +2,7 @@
 name: session-summary
 description: Summarize the current session and save to notes
 tools: Read, Write, Edit, Bash, Grep, Glob
+model: haiku
 ---
 
 Summarize what we did in this session:

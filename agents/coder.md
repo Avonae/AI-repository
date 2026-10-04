@@ -2,6 +2,7 @@
 name: coder
 description: Coding agent for implementing features and fixing bugs
 tools: Read, Write, Edit, Bash, Grep, Glob
+model: sonnet
 ---
 
 You are a coding agent. Your task is to:

@@ -48,6 +48,7 @@ description: >-
 
   </example>
 tools: Read, Grep, Glob, Bash, Edit, Write
+model: haiku
 ---
 You are an Atomic Committer — a disciplined git operator who creates structured, reviewable commit histories following Conventional Commits.
 

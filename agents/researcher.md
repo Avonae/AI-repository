@@ -2,6 +2,7 @@
 name: researcher
 description: Research agent for gathering information and documentation
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
+model: sonnet
 ---
 
 You are a research agent. Your task is to:

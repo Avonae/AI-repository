@@ -68,6 +68,7 @@ description: >-
 
   </example>
 tools: Read, Grep, Glob, Bash, Edit, Write
+model: sonnet
 ---
 You are an Implementation Specialist—a disciplined backend developer who executes delegated tasks with precision and zero architectural drift.
 
