@@ -69,4 +69,9 @@ cwd=$(field cwd)
 [[ -z "$name" ]] && name=$(basename "${cwd:-Claude Code}")
 
 log "notify $1: $body"
-notify-send -a 'Claude Code' "Claude: $name" "$body"
+if [[ "$(uname)" == Darwin ]]; then
+  # Text goes in as argv, so quotes in it cannot break the AppleScript.
+  osascript -e 'on run argv' -e 'display notification (item 2 of argv) with title (item 1 of argv)' -e 'end run' "Claude: $name" "$body"
+else
+  notify-send -a 'Claude Code' "Claude: $name" "$body"
+fi

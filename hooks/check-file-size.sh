@@ -12,12 +12,12 @@ read -r path offset limit < <(jq -r '[.tool_input.file_path // "", .tool_input.o
 [[ "$offset" != "-" || "$limit" != "-" ]] && exit 0
 [[ -f "$path" ]] || exit 0
 # Images, PDFs and notebooks are not line-based text.
-case "${path,,}" in
+case "$(tr '[:upper:]' '[:lower:]' <<<"$path")" in
   *.png|*.jpg|*.jpeg|*.gif|*.webp|*.bmp|*.pdf|*.ipynb) exit 0 ;;
 esac
 grep -Iq . "$path" 2>/dev/null || exit 0
 
-lines=$(wc -l <"$path")
+lines=$(wc -l <"$path" | tr -d ' ')
 (( lines < min )) && exit 0
 
 reason="$path has $lines lines (limit $min). Delegate to the avonae-agents:bulk-reader agent with a specific question, or read only the range you need with offset and limit."
