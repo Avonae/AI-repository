@@ -8,13 +8,14 @@ agents, plugins and hooks.
 | Path               | What it is                                                    |
 | ------------------ | ------------------------------------------------------------- |
 | `agents/`          | Subagent definitions, one Markdown file per agent.             |
+| `skills/`          | Ansible skills forked from [realsigridjin/hello-ansible-skills](https://github.com/realsigridjin/hello-ansible-skills) (MIT, see each `LICENSE`). |
 | `hooks/`           | Desktop notification (`notify-send`) titled with the session name when Claude finishes or needs input. Silent while subagents still run. Also blocks a whole-file `Read` of a text file over 350 lines (`BULK_READ_MIN_LINES`) and points Claude at the `bulk-reader` agent, which reads it on Haiku and returns a summary. Ranged reads always pass. |
 | `settings.json`    | Model, session retention, telemetry opt-outs, commit attribution, enabled plugins, plugin marketplaces and the `rtk` hook. |
 | `.claude-plugin/`  | Marketplace and plugin manifests. The repository root is the plugin. |
 
 This repository is its own plugin marketplace, named `ai`, holding one plugin,
-`avonae-agents`. Installing that plugin is what delivers `agents/` and
-`hooks/`, so the files MUST NOT be copied into `~/.claude/` as well — a copy
+`avonae-agents`. Installing that plugin is what delivers `agents/`,
+`skills/` and `hooks/`, so the files MUST NOT be copied into `~/.claude/` as well — a copy
 becomes a second source that never sees later commits.
 
 The notification hook tracks running subagents through `SubagentStart`,
@@ -35,7 +36,7 @@ notifications come back. Set `CLAUDE_NOTIFY_DEBUG=1` to log every decision to
    binary every `Bash` call fails on the missing hook command.
 3. Install `notify-send` (libnotify) and `jq` for the notification hook.
    Without them the hook stays silent.
-4. Restart Claude Code. It installs `caveman`, `ansible-skills`, `obsidian` and
+4. Restart Claude Code. It installs `caveman`, `obsidian` and
    `avonae-agents` on its own from the `enabledPlugins` and
    `extraKnownMarketplaces` declarations.
 
