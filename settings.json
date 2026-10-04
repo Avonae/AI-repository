@@ -13,7 +13,6 @@
   },
   "enabledPlugins": {
     "caveman@caveman": true,
-    "ansible-skills@ansible-skills-marketplace": true,
     "obsidian@obsidian-skills": true,
     "avonae-agents@ai": true
   },
@@ -22,12 +21,6 @@
       "source": {
         "source": "git",
         "url": "https://github.com/juliusbrussee/caveman.git"
-      }
-    },
-    "ansible-skills-marketplace": {
-      "source": {
-        "source": "git",
-        "url": "https://github.com/realsigridjin/hello-ansible-skills.git"
       }
     },
     "obsidian-skills": {
