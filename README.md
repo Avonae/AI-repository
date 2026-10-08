@@ -10,8 +10,9 @@ agents, plugins and hooks.
 | `agents/`          | Subagent definitions, one Markdown file per agent.             |
 | `skills/`          | Ansible skills forked from [realsigridjin/hello-ansible-skills](https://github.com/realsigridjin/hello-ansible-skills) (MIT, see each `LICENSE`). |
 | `hooks/`           | Desktop notification (`notify-send`) titled with the session name when Claude finishes or needs input. Silent while subagents still run. Also blocks a whole-file `Read` of a text file over 350 lines (`BULK_READ_MIN_LINES`) and points Claude at the `bulk-reader` agent, which reads it on Haiku and returns a summary. Ranged reads always pass. |
-| `settings.json`    | Model, session retention, telemetry opt-outs, commit attribution, enabled plugins, plugin marketplaces and the `rtk` hook. |
-| `.claude-plugin/`  | Marketplace and plugin manifests. The repository root is the plugin. |
+| `templates/user-settings.json` | Template for `~/.claude/settings.json`: model, session retention, telemetry opt-outs, commit attribution, enabled plugins, plugin marketplaces, the `rtk` hook and the context-size status line. Permissions are left out: they hold machine-specific paths. |
+| `templates/context-tokens.sh` | Status line and `UserPromptSubmit` hook that show context size and warn above 150k tokens. Symlinked from `~/.claude/`, because a plugin cannot provide a status line. |
+| `.claude-plugin/`  | Marketplace and plugin manifests. The repository root is the plugin, so a root `settings.json` would be read as plugin settings, where only the `agent` key applies. |
 
 This repository is its own plugin marketplace, named `ai`, holding one plugin,
 `avonae-agents`. Installing that plugin is what delivers `agents/`,
@@ -28,17 +29,23 @@ notifications come back. Set `CLAUDE_NOTIFY_DEBUG=1` to log every decision to
 
 ## Install on a new machine
 
-1. Copy `settings.json` to `~/.claude/settings.json`. If a `settings.json` is
-   already there, merge it by hand: this file holds machine-independent keys
-   only, but a local file may carry extra ones.
-2. Install the `rtk` binary, then run `rtk init -g`. `settings.json` registers
+1. Copy `templates/user-settings.json` to `~/.claude/settings.json`. If a
+   `settings.json` is already there, merge it by hand: this file holds
+   machine-independent keys only, but a local file may carry extra ones.
+2. Install the `rtk` binary, then run `rtk init -g`. The template registers
    the `rtk hook claude` hook, it does not install the binary. Without the
    binary every `Bash` call fails on the missing hook command.
-3. Install `notify-send` (libnotify) and `jq` for the notification hook.
-   Without them the hook stays silent.
-4. Restart Claude Code. It installs `caveman`, `obsidian` and
-   `avonae-agents` on its own from the `enabledPlugins` and
-   `extraKnownMarketplaces` declarations.
+3. Symlink the script, so edits land in this repository:
+   `ln -s "$PWD/templates/context-tokens.sh" ~/.claude/context-tokens.sh`
+   (run from the repository root). The template's status line and
+   `UserPromptSubmit` hook call it.
+4. Install `notify-send` (libnotify) and `jq` for the notification hook and
+   the status line. Without them both stay silent.
+5. Restart Claude Code. It installs `avonae-agents`, `caveman`, `obsidian`,
+   `frontend-design` and `skill-creator` on its own from the `enabledPlugins`
+   and `extraKnownMarketplaces` declarations. The `blowfish` and
+   `claude-skills` marketplaces are only declared; projects enable their
+   plugins in their own `.claude/settings.json`.
 
 ## Update the agents
 

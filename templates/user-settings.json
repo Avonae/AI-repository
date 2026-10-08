@@ -1,0 +1,81 @@
+{
+  "cleanupPeriodDays": 99999,
+  "env": {
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "DISABLE_FEEDBACK_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "model": "opus[1m]",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/context-tokens.sh hook"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/context-tokens.sh statusline"
+  },
+  "enabledPlugins": {
+    "frontend-design@anthropic-plugin-directory": true,
+    "skill-creator@anthropic-plugin-directory": true,
+    "avonae-agents@ai": true,
+    "caveman@caveman": true,
+    "obsidian@obsidian-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/juliusbrussee/caveman.git"
+      }
+    },
+    "obsidian-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/kepano/obsidian-skills.git"
+      }
+    },
+    "ai": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/Avonae/AI-repository.git"
+      }
+    },
+    "blowfish": {
+      "source": {
+        "source": "github",
+        "repo": "nunocoracao/blowfish"
+      }
+    },
+    "claude-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/secondsky/claude-skills.git"
+      }
+    }
+  },
+  "theme": "dark"
+}
