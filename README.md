@@ -29,6 +29,10 @@ notifications come back. Set `CLAUDE_NOTIFY_DEBUG=1` to log every decision to
 
 ## Install on a new machine
 
+The `claude_workstation` role in
+[ansible-playbooks](https://github.com/Avonae/ansible-playbooks) runs every
+step below on macOS and Linux. The manual steps stay as reference.
+
 1. Copy `templates/user-settings.json` to `~/.claude/settings.json`. If a
    `settings.json` is already there, merge it by hand: this file holds
    machine-independent keys only, but a local file may carry extra ones.
@@ -41,7 +45,12 @@ notifications come back. Set `CLAUDE_NOTIFY_DEBUG=1` to log every decision to
    `UserPromptSubmit` hook call it.
 4. Install `notify-send` (libnotify) and `jq` for the notification hook and
    the status line. Without them both stay silent.
-5. Restart Claude Code. It installs `avonae-agents`, `caveman`, `obsidian`,
+5. Install [PMG](https://github.com/safedep/pmg) and run `pmg setup install`.
+   It routes npm, pip, uv and the other package managers through SafeDep's
+   malicious-package check. Then write `~/.claude/machine.md`: it tells
+   Claude that PMG is present and MUST NOT be bypassed. `CLAUDE.md` imports it
+   as `@machine.md`; the file is machine-specific and excluded from sync.
+6. Restart Claude Code. It installs `avonae-agents`, `caveman`, `obsidian`,
    `frontend-design` and `skill-creator` on its own from the `enabledPlugins`
    and `extraKnownMarketplaces` declarations. The `blowfish` and
    `claude-skills` marketplaces are only declared; projects enable their
@@ -63,3 +72,5 @@ Edit `agents/` here and push. On each machine run `/plugin` and update
   machine that obtained it. It MUST NOT leave that machine.
 - **Session state** — transcripts, auto-memory, shell snapshots and caches are
   per-machine and carry absolute paths.
+- **Machine notes** (`~/.claude/machine.md`) — tools and paths of one machine,
+  such as PMG. Excluded from sync; each machine writes its own.
