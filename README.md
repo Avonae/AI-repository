@@ -39,18 +39,30 @@ step below on macOS and Linux. The manual steps stay as reference.
 2. Install the `rtk` binary, then run `rtk init -g`. The template registers
    the `rtk hook claude` hook, it does not install the binary. Without the
    binary every `Bash` call fails on the missing hook command.
-3. Symlink the script, so edits land in this repository:
+   The proxy in the next step needs `rtk` 1.0 or later; re-run the install
+   script to update an older binary.
+3. Install the RTK proxy, which compresses Claude Code's API traffic. Download
+   the `rtk-proxy-<target>` archive from the
+   [rtk releases](https://github.com/rtk-ai/rtk/releases) and put the
+   `rtk-proxy` binary next to `rtk`. Then run `rtk init -g`, answer yes to the
+   proxy question and pick "Background service". It writes
+   `env.ANTHROPIC_BASE_URL` into `settings.json`, creates `pipeline.toml` with
+   `extends = "rtk:proxy"` and installs a per-user service on
+   `127.0.0.1:8080`. Check it with `rtk llm-proxy status`. While the base URL
+   is set, the daemon MUST be running: with it down, every Claude Code API
+   call fails. The template leaves the base URL out for that reason.
+4. Symlink the script, so edits land in this repository:
    `ln -s "$PWD/templates/context-tokens.sh" ~/.claude/context-tokens.sh`
    (run from the repository root). The template's status line and
    `UserPromptSubmit` hook call it.
-4. Install `notify-send` (libnotify) and `jq` for the notification hook and
+5. Install `notify-send` (libnotify) and `jq` for the notification hook and
    the status line. Without them both stay silent.
-5. Install [PMG](https://github.com/safedep/pmg) and run `pmg setup install`.
+6. Install [PMG](https://github.com/safedep/pmg) and run `pmg setup install`.
    It routes npm, pip, uv and the other package managers through SafeDep's
    malicious-package check. Then write `~/.claude/machine.md`: it tells
    Claude that PMG is present and MUST NOT be bypassed. `CLAUDE.md` imports it
    as `@machine.md`; the file is machine-specific and excluded from sync.
-6. Restart Claude Code. It installs `avonae-agents`, `caveman`, `obsidian`,
+7. Restart Claude Code. It installs `avonae-agents`, `caveman`, `obsidian`,
    `frontend-design` and `skill-creator` on its own from the `enabledPlugins`
    and `extraKnownMarketplaces` declarations. The `blowfish` and
    `claude-skills` marketplaces are only declared; projects enable their
