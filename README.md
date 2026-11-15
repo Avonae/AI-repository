@@ -68,6 +68,20 @@ step below on macOS and Linux. The manual steps stay as reference.
    `claude-skills` marketplaces are only declared; projects enable their
    plugins in their own `.claude/settings.json`.
 
+8. Install [Basic Memory](https://github.com/basicmachines-co/basic-memory),
+   Claude's knowledge base:
+   `pipx install --pip-args=--pre basic-memory` (the MCP server needs a
+   FastMCP pre-release). Then point it at the `claude-knowledge` folder of the
+   Obsidian vault and register it in Claude Code:
+   ```
+   basic-memory project add claude-knowledge <vault>/claude-knowledge
+   basic-memory project default claude-knowledge
+   claude mcp add --scope user basic-memory -- ~/.local/bin/basic-memory mcp
+   ```
+   The notes are plain Markdown synced by Syncthing with the vault. The index
+   lives in `~/.basic-memory/` and each machine builds its own: it MUST NOT be
+   synced. Only one machine (the server) commits the vault to git.
+
 ## Update the agents
 
 Edit `agents/` here and push. On each machine run `/plugin` and update
@@ -84,5 +98,8 @@ Edit `agents/` here and push. On each machine run `/plugin` and update
   machine that obtained it. It MUST NOT leave that machine.
 - **Session state** — transcripts, auto-memory, shell snapshots and caches are
   per-machine and carry absolute paths.
+- **Knowledge base** — notes live in the Obsidian vault (`claude-knowledge/`),
+  history in its git repository; the Basic Memory index (`~/.basic-memory/`)
+  is per-machine.
 - **Machine notes** (`~/.claude/machine.md`) — tools and paths of one machine,
   such as PMG. Excluded from sync; each machine writes its own.
