@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # SessionStart hook: terminates the Claude Code session after CLAUDE_IDLE_LIMIT seconds
-# (default 12h) without transcript changes. Checks every CLAUDE_IDLE_CHECK seconds.
+# (default 6h) without transcript changes. Checks every CLAUDE_IDLE_CHECK seconds.
 
-IDLE_LIMIT=${CLAUDE_IDLE_LIMIT:-43200}
+IDLE_LIMIT=${CLAUDE_IDLE_LIMIT:-21600}
 CHECK_INTERVAL=${CLAUDE_IDLE_CHECK:-600}
 
 mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1"; }

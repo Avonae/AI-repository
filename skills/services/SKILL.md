@@ -59,6 +59,8 @@ If a fact here turns out wrong, fix this file in the same turn.
 - Aliases: уязвимости, сканер, сканер уязвимостей, триви, security alerts.
 - systemd `trivy-scan.timer` daily at 04:30 Asia/Tbilisi, runs `trivy-scan.service` → `/usr/local/sbin/trivy-scan`.
 - Scans the image of every running container (HIGH, CRITICAL, fixed only), posts findings to the n8n webhook `security-alerts`.
+- Telegram alerts (node "Alert filter") go out only for images reachable without Cloudflare Access (cloudflared, traefik, synapse, MAS, lk-jwt, syncthing, n8n: CRITICAL or KEV/EPSS) and for images that parse untrusted content (downloader, telegram-api-server, flaresolverr: KEV/EPSS only). All other images are still stored in the tables but never alert.
+- Exposure: almost every `*.filinkov.org` host is behind Cloudflare Access (Google login, country rule). Without Access: `m.filinkov.org` (Synapse) and `mas.filinkov.org`. Host ports: SSH 23080, Syncthing 53131.
 - App dir `/opt/docker/apps/trivy-scan` (root-only; reports in `out/reports`, payload `out/payload.json`).
 - n8n side: workflows "Security alerts" `secAlertsFlow0001` and "Security alerts tables" `secAlertsTables01`.
 - Host OS check: "Security alerts" runs daily at 12:00 Tbilisi over SSH as user `secscan`. Its key has a forced command (`pro security-status --format json; /usr/local/bin/reboot-cves`), so the command set in n8n is ignored. `reboot-cves` (role `security-scan` in `~/github/ansible-playbooks`) lists the CVEs fixed by packages waiting for a reboot, with their Ubuntu priority. n8n sends the reboot alert only for high/critical/unrated CVEs or a kernel update.
@@ -96,4 +98,4 @@ If a fact here turns out wrong, fix this file in the same turn.
 | `dynacat` | Dashboard (config `~/dynacat.yml`) | internal :8080 | дашборд |
 | `videos` | Angie static server for videos | internal :80 | |
 
-Not running: Jellyfin (`/opt/jellyfin`, systemd `jellyfin.service`, inactive since 2026-11-11, `jf.filinkov.org`). Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.
+Jellyfin: systemd `jellyfin.service` (`/opt/jellyfin`) is inactive since 2026-11-11, but a `jellyfin` container runs and serves `jf.filinkov.org`. Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.
