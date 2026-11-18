@@ -29,7 +29,9 @@ If a fact here turns out wrong, fix this file in the same turn.
 
 - Aliases: бот рецептов, рецептный бот, мили-бот.
 - Answers the "Рецепты" topic of a family Telegram chat; n8n receives messages and runs Claude in the bot folder.
-- Repo: `/opt/mealie-bot` (root-owned git; run `git` there with `-c safe.directory=/opt/mealie-bot`), remote `Avonae/mealie`. There is no other local copy.
+- Dev clone: `~/github/mealie` (user ubuntu, remote `Avonae/mealie`). Edit and commit only there; read its `HANDOFF.md` before any change.
+- Production: `/opt/mealie-bot` (root-owned, runs as user `mealiebot`). MUST NOT edit it by hand: the Ansible role `roles/mealie_bot` in `~/github/ansible-playbooks` (branch `dev`) deploys it.
+- Deploy: push to `main` in `~/github/mealie`, set `mealie_bot_version` to the new commit SHA in `roles/mealie_bot/defaults/main/main.yml`, then run the role with a playbook on `zxc.filinkov.org` (real runs need the user's permission each time).
 - Rules for the bot: `CLAUDE.md`, state: `HANDOFF.md`, n8n workflow export: `n8n/workflow.json`, `n8n/live.json`.
 - Media from Telegram: `/opt/docker/apps/n8n/files/mealie` (cron deletes files older than 7 days).
 - Helpers: `video` and `profile` call the `downloader` container (`127.0.0.1:8000`).
