@@ -36,6 +36,14 @@ If a fact here turns out wrong, fix this file in the same turn.
 - Media from Telegram: `/opt/docker/apps/n8n/files/mealie` (cron deletes files older than 7 days).
 - Helpers: `video` and `profile` call the `downloader` container (`127.0.0.1:8000`).
 
+## Downloader (media downloader)
+
+- Aliases: даунлоадер, качалка.
+- Container `downloader`, `127.0.0.1:8000` (`/info`, `/download`, `/health`): yt-dlp and gallery-dl over HTTP for the recipe bot, the channel posts bot and n8n.
+- Ansible role `roles/downloader` in `~/github/ansible-playbooks` (branch `dev`); MUST NOT edit `/opt/docker/apps/downloader` by hand. Secrets (cookies, Instagram proxy) live in the gitignored `roles/downloader/vars/main.yml`.
+- Instagram goes through a static ISP proxy and a dedicated account; other sites go direct.
+- Details, checks, cookie refresh and proxy change: Basic Memory note `projects/downloader` in project `claude-knowledge`. Read it before any change.
+
 ## Channels bot (Telegram channel monitor)
 
 - Aliases: бот каналов, мониторинг каналов, channel monitor.
@@ -82,7 +90,6 @@ If a fact here turns out wrong, fix this file in the same turn.
 | `checkmate`, `checkmate-mongodb`, `checkmate-capture` | Uptime monitoring | mon.filinkov.org, 127.0.0.1:52345 | чекмейт, мониторинг, аптайм |
 | `apprise` | Notifications to Telegram (skill `avonae-agents:notify`) | apprise.filinkov.org | эпрайз, уведомления |
 | `telegram-api-server` | TelegramApiServer (MTProto user API) for n8n | internal :9503 | телеграм апи |
-| `downloader` | Local video/media downloader for the recipe bot | 127.0.0.1:8000 | даунлоадер, качалка |
 | `matrix` project: `matrix`, `matrix-mas`, `matrix-postgres`, `matrix-lk-jwt`, `matrix-element` | Matrix Synapse, auth service, Element web | m.filinkov.org, mas.filinkov.org | матрикс, элемент |
 | `element-admin` | Matrix admin UI | element-admin.filinkov.org | админка матрикса |
 | `obsidian` | Obsidian in a browser | obs.filinkov.org | обсидиан, заметки |
