@@ -1,6 +1,6 @@
 ---
 name: dev-workflow
-description: Rules for changing code or config in a repository - numbered steps with approval for multi-part changes, subagent choice, the BA → Dev → Review cycle for projects that opt in, and commit messages. Use before editing files in any repository, before spawning agents, and before committing.
+description: Rules for changing code or config in a repository - numbered steps with approval for multi-part changes, subagent choice, the Grill → OpenSpec → Dev → Review cycle for projects that opt in, and commit messages. Use before editing files in any repository, before spawning agents, and before committing.
 ---
 
 ## Repositories
@@ -30,25 +30,35 @@ Single-file or single-purpose edits don't need this; just do them.
 - Do not pass a `model` when spawning an agent unless the task needs a different one; each
   plugin agent already pins the model that fits its role.
 
-## Development cycle: BA → Dev → Review
+## Development cycle: Grill → OpenSpec → Dev → Review
 
 The cycle applies only to projects whose `CLAUDE.md` contains the line
-`Development cycle: BA → Dev → Review`. Every change in such a project MUST go through it.
-A project without that line skips the cycle, with no question asked.
+`Development cycle: Grill → Dev → Review` (or the older `Development cycle: BA → Dev → Review`).
+Every change in such a project MUST go through it. A project without that line skips the cycle,
+with no question asked.
 
 I am the orchestrator: I talk to the user, the agents talk only to me.
 
-1. **BA** (`avonae-agents:ba` agent): writes a change request (CR) in `requirements/` of the repository (kept
-   out of git), or where the repository `CLAUDE.md` says, and returns open questions. I ask the user, send the answers back to the same BA agent, and repeat
-   until the user approves the CR. Then BA merges it into `Spec.md`.
-2. **Dev** (`avonae-agents:dev` agent): implements the approved CR with tests and runs the checks.
-3. **Review** (`avonae-agents:requirements-reviewer` agent): reviews the change against the CR. Findings go back to Dev;
-   repeat until the verdict is APPROVE.
-4. I run the app as the repository `CLAUDE.md` says, check the result, and report to the user.
+Requirements live in OpenSpec (`openspec/` in the repository): current behavior in
+`openspec/specs/`, each change in `openspec/changes/<name>/`. A project without `openspec/` gets
+`openspec init --tools claude --scope global` first.
 
-- The user's approval of the CR replaces step-by-step approval from the multi-part workflow.
-- A one-line fix, a text or label change, or a config tweak MAY skip BA: I state it, Dev does it,
-  review still runs.
+1. **Grill**: I run the `grill-me` skill with the user on the request until every branch of the
+   decision tree is resolved. Questions the code can answer I answer myself.
+2. **Propose**: I run the `openspec-propose` skill with the decisions. It writes the change:
+   `proposal.md`, delta specs, `design.md`, `tasks.md`. `openspec validate <name>` MUST pass. The
+   user approves the change. Later edits to the plan go through `openspec-update-change`.
+3. **Dev** (`avonae-agents:dev` agent): implements the tasks of the approved change with tests,
+   ticks them in `tasks.md`, and runs the checks.
+4. **Review** (`avonae-agents:requirements-reviewer` agent): reviews the code against the change's
+   delta specs. Findings go back to Dev; repeat until the verdict is APPROVE.
+5. I run the app as the repository `CLAUDE.md` says, check the result, and report to the user.
+6. **Archive**: after the user accepts the result, I run the `openspec-archive-change` skill. It
+   merges the delta specs into `openspec/specs/`.
+
+- The user's approval of the change replaces step-by-step approval from the multi-part workflow.
+- A one-line fix, a text or label change, or a config tweak MAY skip grill and propose: I state
+  it, Dev does it, review still runs.
 - Each repository `CLAUDE.md` MUST list its check commands and how to run the app.
 
 ## Commits
