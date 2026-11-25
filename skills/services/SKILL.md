@@ -1,6 +1,6 @@
 ---
 name: services
-description: Catalog of self-hosted services on server zxc - location, access, deploy, user's names for them. Read before any request naming a service, container, *.filinkov.org host or the server. Names: server, zxc, Docker, containers, Mealie, recipe bot, channels bot, n8n, workflows, downloader, Trivy, security alerts, ZenMoney, zenmoney-web, finances, money, dashboard, Dynacat, monitoring, Checkmate, WUD, Apprise, Matrix, Obsidian, Quartz, Syncthing, Jellyfin, Sonarr, Prowlarr, Seerr, PocketID, Tinyauth, Traefik, Cloudflare tunnel; сервер, докер, контейнеры, мили, рецепты, бот рецептов, бот каналов, нейтан, н8н, автоматизации, воркфлоу, даунлоадер, уязвимости, триви, дзенмани, финансы, деньги, расходы, траты, бюджет, счета, дашборд, динакат, мониторинг, аптайм, чекмейт, вуд, эпрайз, уведомления, матрикс, обсидиан, кварц, синктинг, джеллифин, фильмы, сериалы, сонарр, проулар, сир, покет айди, трафик, туннель.
+description: "Catalog of self-hosted services on server zxc - location, access, deploy, user's names for them. Read before any request naming a service, container, *.filinkov.org host or the server. Names: server, zxc, Docker, containers, Mealie, recipe bot, channels bot, n8n, workflows, downloader, Trivy, security alerts, ZenMoney, zenmoney-web, finances, money, dashboard, Dynacat, monitoring, Checkmate, WUD, Apprise, Matrix, Obsidian, Quartz, Syncthing, Jellyfin, Sonarr, Prowlarr, Seerr, PocketID, Tinyauth, Traefik, Cloudflare tunnel; сервер, докер, контейнеры, мили, рецепты, бот рецептов, бот каналов, нейтан, н8н, автоматизации, воркфлоу, даунлоадер, уязвимости, триви, дзенмани, финансы, деньги, расходы, траты, бюджет, счета, дашборд, динакат, мониторинг, аптайм, чекмейт, вуд, эпрайз, уведомления, матрикс, обсидиан, кварц, синктинг, джеллифин, фильмы, сериалы, сонарр, проулар, сир, покет айди, трафик, туннель."
 ---
 
 # Services catalog
@@ -10,12 +10,13 @@ If a fact here turns out wrong, fix this file in the same turn.
 
 ## Common layout
 
-- "Сервер" / "на сервере" always means `zxc` (hostname `zxc.filinkov.org`): the machine Claude runs on. Run commands locally; no SSH needed.
+- "Сервер" / "на сервере" always means `zxc` (hostname `zxc.filinkov.org`). On zxc run commands locally; from another machine prefix them with `ssh zxc.filinkov.org`.
+- Paths `~/github/<repo>` below are the server clones (user ubuntu). On the desktop the clones live in `~/Sync/github/<repo>`.
 
 - Docker apps: `/opt/docker/apps/<name>/docker-compose.yml`, one compose project per app. `docker compose ls` lists them.
 - Public access: Cloudflare tunnel (`cloudflared`, token-based, hostnames set in the Cloudflare dashboard) and Traefik (`Host(...)` labels). Domain: `filinkov.org`.
 - Public hostnames are often behind Cloudflare challenge or SSO (`pocketid`, `tinyauth`). From the server, use the localhost port or `docker exec`.
-- Files under `/opt/docker/apps/*/data`, `trivy-scan`, `traefik/acme`, `matrix/secrets` are root-only. Root commands go to the user (see global CLAUDE.md).
+- Files under `/opt/docker/apps/*/data`, `trivy-scan`, `traefik/acme`, `matrix/secrets` are root-only. Root commands go to the user through the `avonae-agents:notify` skill, section "Root requests".
 
 ## Mealie (recipes)
 
@@ -110,4 +111,4 @@ If a fact here turns out wrong, fix this file in the same turn.
 | `jellyfin` | Media server | jf.filinkov.org | джеллифин, фильмы |
 | `mealie-videos` | Angie static server for recipe videos (role `roles/mealie`) | internal :80 | |
 
-Jellyfin: systemd `jellyfin.service` (`/opt/jellyfin`) is inactive since 2026-11-11; the `jellyfin` container serves instead. Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.
+Jellyfin lives outside `/opt/docker/apps`: compose `/opt/jellyfin/compose.yaml`, started by the oneshot systemd unit `jellyfin.service` (`docker compose up -d`). Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.

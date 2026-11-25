@@ -1,6 +1,6 @@
 ---
 name: wrap-up
-description: Close out a task or session - ask the user whether the result is accepted, what is left and what to remember, then record it in Basic Memory (log entry, checkpoint or project fact). Use it whenever the user says итоги, подведи итоги, закругляемся, на сегодня всё, готово, принято, сохрани прогресс, wrap up, or otherwise signals the task is done or paused, even without naming the skill. Prefer it over bm-checkpoint at the end of a task: it decides whether a checkpoint is needed at all and calls bm-checkpoint itself.
+description: "Close out a task or session - ask the user whether the result is accepted, what is left and what to remember, then record it in Basic Memory (log entry, checkpoint or project fact). Use it whenever the user says итоги, подведи итоги, закругляемся, на сегодня всё, готово, принято, сохрани прогресс, wrap up, or otherwise signals the task is done or paused, even without naming the skill. Prefer it over bm-checkpoint at the end of a task: it decides whether a checkpoint is needed at all and calls bm-checkpoint itself."
 ---
 
 # Wrap-up
@@ -26,7 +26,7 @@ Target: the Basic Memory project in `basicMemory.primaryProject` of the Claude s
   - a project fact or state → fix the note in `projects/` in place (`bm_read`, then `bm_edit`); git keeps the history;
   - a decision with a reason → the `basic-memory:bm-decide` skill; it writes a `type: decision` note to `decisions/`. Never put decisions in `projects/`;
   - a habit or command of this one repository → auto memory;
-  - a behavior rule for all projects → propose a line for `~/.claude/CLAUDE.md` and write it only after approval, because it changes every future session.
+  - a behavior rule for all projects → propose a line for `~/Sync/claude/.claude/CLAUDE.md` and write it only after approval, because it changes every future session.
 
 ## 4. Report
 One line per written note: its path.
