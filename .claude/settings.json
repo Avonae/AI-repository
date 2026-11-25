@@ -1,0 +1,16 @@
+{
+  "basicMemory": {
+    "primaryProject": "claude-knowledge",
+    "secondaryProjects": [],
+    "captureFolder": "sessions",
+    "rememberFolder": "bm-remember",
+    "recallTimeframe": "3d",
+    "preCompactCapture": "extractive",
+    "sessionProfile": "coding",
+    "captureEvents": true,
+    "placementConventions": "Follow README.md. rules/: one rule per note with reason and date. projects/: one note per project (repo, paths, deploy, state). server/: server zxc and sync setup. notes/: personal how-tos in Russian. log/YYYY-MM.md: one entry per finished task. decisions/ and tasks/ for typed notes; facts in English, no secrets.",
+    "teamProjects": {},
+    "repository": "Avonae/AI-repository"
+  },
+  "outputStyle": "basic-memory"
+}
