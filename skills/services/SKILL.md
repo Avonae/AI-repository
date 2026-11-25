@@ -112,3 +112,10 @@ If a fact here turns out wrong, fix this file in the same turn.
 | `mealie-videos` | Angie static server for recipe videos (role `roles/mealie`) | internal :80 | |
 
 Jellyfin lives outside `/opt/docker/apps`: compose `/opt/jellyfin/compose.yaml`, started by the oneshot systemd unit `jellyfin.service` (`docker compose up -d`). Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.
+
+## Obsidian vault backup
+
+- Aliases: бэкап хранилища, бэкап обсидиана, vault push.
+- n8n workflow "Vault push" runs hourly. It logs in over SSH with a forced-command key and runs `/opt/obsidian-git/vault-push.sh`.
+- The script commits the Syncthing vault `/opt/docker/apps/syncthing/config/obsidian_vault` as user `ubuntu` and pushes to `Avonae/Obsidian-vault` (branch `main`) with the deploy key `~/.ssh/gh_obsidian_vault`.
+- Ansible role `roles/obsidian_git` in `~/github/ansible-playbooks`, playbook `obsidian_git.yml`. MUST NOT edit `/opt/obsidian-git` by hand.
