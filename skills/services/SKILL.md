@@ -1,6 +1,6 @@
 ---
 name: services
-description: Catalog of the self-hosted services on this server - where each one lives, how to reach it, and what the user calls it. Read it before any request that names a service or asks to look something up in one (Mealie recipes, ZenMoney finances and money questions, the recipe bot, the channels bot, n8n workflows, Trivy vulnerability scans, any Docker container), including Russian nicknames: мили, милли, рецепты, книга рецептов, бот рецептов, мили-бот, бот каналов, мониторинг каналов, нейтан, н8н, эн-эйт-эн, автоматизации, воркфлоу, уязвимости, сканер, триви, вуд, чекмейт, аптайм, эпрайз, уведомления, матрикс, обсидиан, синктинг, дзенмани, финансы, деньги, расходы, траты, доходы, бюджет, счета, сонарр, проулар, сир, покет айди, трафик, туннель, даунлоадер, докер, контейнеры, сервер, на сервере, zxc.
+description: Catalog of self-hosted services on server zxc - location, access, deploy, user's names for them. Read before any request naming a service, container, *.filinkov.org host or the server. Names: server, zxc, Docker, containers, Mealie, recipe bot, channels bot, n8n, workflows, downloader, Trivy, security alerts, ZenMoney, zenmoney-web, finances, money, dashboard, Dynacat, monitoring, Checkmate, WUD, Apprise, Matrix, Obsidian, Quartz, Syncthing, Jellyfin, Sonarr, Prowlarr, Seerr, PocketID, Tinyauth, Traefik, Cloudflare tunnel; сервер, докер, контейнеры, мили, рецепты, бот рецептов, бот каналов, нейтан, н8н, автоматизации, воркфлоу, даунлоадер, уязвимости, триви, дзенмани, финансы, деньги, расходы, траты, бюджет, счета, дашборд, динакат, мониторинг, аптайм, чекмейт, вуд, эпрайз, уведомления, матрикс, обсидиан, кварц, синктинг, джеллифин, фильмы, сериалы, сонарр, проулар, сир, покет айди, трафик, туннель.
 ---
 
 # Services catalog
@@ -60,6 +60,7 @@ If a fact here turns out wrong, fix this file in the same turn.
 - Containers `n8n`, `n8n-runner`, `postgres`; compose `/opt/docker/apps/n8n/`. Public: `n8n.filinkov.org`.
 - Shared files for workflows: `/opt/docker/apps/n8n/files/` (mounted into the container).
 - List workflows: `docker exec n8n n8n list:workflow`. Export: `docker exec n8n n8n export:workflow --id=<id>`.
+- Deploy a workflow change without a restart: `docker cp` + `n8n import:workflow` + `n8n publish:workflow --id=<id>`, or the public API (`PUT /workflows/{id}`, then `POST /workflows/{id}/activate`; key in `~/.config/n8n-api-key`). MUST NOT `docker restart n8n` for it: that kills running executions. Older handoff notes that ask for a restart are outdated. BusyBox `wget` in the container has no PUT: use `node -e` with `fetch`.
 - `n8n execute` does not work (collides with the running instance on port 5679). Test via a temporary webhook copy; see `~/github/telegram-bot-checking/HANDOFF.md`, section "Testing".
 - Execution data: table `execution_data`, container `postgres`, database `n8n`, user `n8ndatabaseuser`.
 - Webhooks from the host: resolve the `n8n` container IP (see `/usr/local/sbin/trivy-scan`).
@@ -104,7 +105,9 @@ If a fact here turns out wrong, fix this file in the same turn.
 | `traefik` | Reverse proxy | traefik.filinkov.org | трафик |
 | `cloudflared` | Cloudflare tunnel | none | туннель |
 | `docker-socket-proxy` | Restricted Docker API for other containers | internal :2375 | |
-| `dynacat` | Dashboard (config `~/dynacat.yml`) | internal :8080 | дашборд |
-| `videos` | Angie static server for videos | internal :80 | |
+| `dynacat` | Dashboard (role `roles/dynacat` in `~/github/ansible-playbooks`) | dash.filinkov.org, internal :8080 | дашборд, дэшборд, динакат |
+| `quartz` | Static site from the vault folder `share/` | notes.filinkov.org | кварц, сайт заметок |
+| `jellyfin` | Media server | jf.filinkov.org | джеллифин, фильмы |
+| `mealie-videos` | Angie static server for recipe videos (role `roles/mealie`) | internal :80 | |
 
-Jellyfin: systemd `jellyfin.service` (`/opt/jellyfin`) is inactive since 2026-11-11, but a `jellyfin` container runs and serves `jf.filinkov.org`. Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.
+Jellyfin: systemd `jellyfin.service` (`/opt/jellyfin`) is inactive since 2026-11-11; the `jellyfin` container serves instead. Folders without a running container in `/opt/docker/apps`: `FlareSolverr`, `docker-3proxy`, `homarr`, `homepage`, `uptime-kuma-api`.
