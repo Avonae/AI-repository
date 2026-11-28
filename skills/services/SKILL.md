@@ -83,6 +83,8 @@ If a fact here turns out wrong, fix this file in the same turn.
 - Aliases: дзенмани, финансы, деньги, расходы, траты, доходы, бюджет, счета, транзакции.
 - Any question about money, spending, income, budgets or accounts MUST start with the `zenmoney-web` container.
 - Container `zenmoney-web`, public UI `fin.filinkov.org`. Updated by `zenmoney-web-update.timer`.
+- Data: SQLite `/app/data/zenmoney.db` in the container, synced every 15 minutes (`sync_state.server_timestamp`). Read-only query from the desktop: `ssh zxc.filinkov.org "docker exec -i -w /app zenmoney-web node -" < script.js` with `require('better-sqlite3')('/app/data/zenmoney.db',{readonly:true})`. Plain `ssh zxc` does not resolve.
+- Bank reconciliation rules: Basic Memory note `projects/zenmoney-reconciliation` in project `claude-knowledge`. Read it before any reconciliation.
 
 ## Other Docker containers
 
